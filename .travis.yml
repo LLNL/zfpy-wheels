@@ -19,7 +19,6 @@ env:
         - secure:
             ""
 
-
 # You will likely prefer "language: generic" for travis configuration,
 # rather than, say "language: python". Multibuild doesn't use
 # Travis-provided Python but rather installs and uses its own, where the
