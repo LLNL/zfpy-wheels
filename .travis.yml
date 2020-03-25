@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=zfp
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=079c409fcb53de5a06fa4336972c04869e33c48d
+        - BUILD_COMMIT=1b6d5eb74a9b35d3d563d94bfce5138de637c28b
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS="cython numpy"
         # pip dependencies to _test_ your project.  Include any dependencies
@@ -105,7 +105,7 @@ matrix:
 
 before_install:
     - git clone https://github.com/matthew-brett/multibuild.git
-    - git clone https://github.com/llnl/zfp.git
+    - git clone https://github.com/da-wad/zfp.git
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
     - before_install
