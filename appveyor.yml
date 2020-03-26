@@ -1,0 +1,85 @@
+environment:
+  global:
+    REPO_DIR: zfp
+    PACKAGE_NAME: zfpy
+    BUILD_COMMIT: 68971325c63c2adce812571adf6947c7ad5db78a
+    BUILDWHEEL: "True"  # trigger setup.py to include zlib.dll
+    BUILD_DEPENDS: "cython numpy"
+    TEST_DEPENDS: "numpy pytest"
+    DISABLE_AVX2: "True"  # do not include AVX2 in this build
+    ZFPY_VERSION: 0.5.5
+
+  matrix:
+    - PYTHON: C:\Python35
+      PYTHON_VERSION: 3.5
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python35-x64
+      PYTHON_VERSION: 3.5
+      PYTHON_ARCH: 64
+
+    - PYTHON: C:\Python36
+      PYTHON_VERSION: 3.6
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python36-x64
+      PYTHON_VERSION: 3.6
+      PYTHON_ARCH: 64
+
+    - PYTHON: C:\Python37
+      PYTHON_VERSION: 3.7
+      PYTHON_ARCH: 32
+
+    - PYTHON: C:\Python37-x64
+      PYTHON_VERSION: 3.7
+      PYTHON_ARCH: 64
+
+
+# We always use a 64-bit machine, but can build x86 distributions
+# with the PYTHON_ARCH variable.
+platform:
+    - x64
+
+install:
+    # Fetch projects
+    - git clone https://github.com/matthew-brett/multibuild.git
+    - git clone https://github.com/da-wad/zfp.git
+
+    # Check that we have the expected version and architecture for Python
+    - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PYTHON%\Library\bin;%PATH%
+    - python --version
+    - python -m pip install pip
+    - python -m pip install --upgrade pip
+    - python -m pip install cython numpy scikit-build "cmake<3.14"
+
+    - echo %PATH%
+    - echo %PYTHON%
+    - ls %PYTHON%\libs
+    - ls %PYTHON%\Include
+    - ls %PYTHON%\lib\site-packages\numpy\core\include\numpy
+
+    # Set some variables to be used in the build
+    - python -c "from distutils import sysconfig; print(sysconfig.get_config_var('LIBDIR'))"
+    - python -c "from sysconfig import get_paths; print(get_paths()['include'])"
+    - python -c "import numpy; print(numpy.get_include())"
+
+build_script:
+    - cd %REPO_DIR%
+    - git checkout %BUILD_COMMIT%
+    - mkdir build
+    - cd build
+    - cmake .. -DBUILD_ZFPY=ON -DPYTHONLIBS=%PYTHON%\libs -DPYTHON_INCLUDE_DIR=%PYTHON%\Include -DPYTHON_NUMPY_INCLUDE_DIR=%PYTHON%\lib\site-packages\numpy\core\include
+    - cmake --build . --config Release
+    - cd ..
+
+artifacts:
+    - path: "%REPO_DIR%\\dist\\*"
+
+on_success:
+  # Upload the generated wheel package to Rackspace
+  # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
+  # disable the ssl checks.
+  - cd %REPO_DIR%
+  - python -m pip install wheelhouse-uploader
+  - python -m wheelhouse_uploader upload
+    --no-ssl-check --local-folder=dist --no-update-index wheels
