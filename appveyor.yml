@@ -1,3 +1,10 @@
+os: Visual Studio 2015
+image: Visual Studio 2015
+
+platform:
+  - x64
+  - x86
+
 environment:
   global:
     REPO_DIR: zfp
@@ -11,42 +18,25 @@ environment:
 
   matrix:
     - PYTHON: C:\Python35
-      PYTHON_VERSION: 3.5
-      PYTHON_ARCH: 32
-
-    - PYTHON: C:\Python35-x64
-      PYTHON_VERSION: 3.5
-      PYTHON_ARCH: 64
+      PYTHON_VERSION: 35
 
     - PYTHON: C:\Python36
-      PYTHON_VERSION: 3.6
-      PYTHON_ARCH: 32
-
-    - PYTHON: C:\Python36-x64
-      PYTHON_VERSION: 3.6
-      PYTHON_ARCH: 64
+      PYTHON_VERSION: 36
 
     - PYTHON: C:\Python37
-      PYTHON_VERSION: 3.7
-      PYTHON_ARCH: 32
+      PYTHON_VERSION: 37
 
-    - PYTHON: C:\Python37-x64
-      PYTHON_VERSION: 3.7
-      PYTHON_ARCH: 64
-
-
-# We always use a 64-bit machine, but can build x86 distributions
-# with the PYTHON_ARCH variable.
-platform:
-    - x64
+    - PYTHON: C:\Python27
+      PYTHON_VERSION: 27
 
 install:
+    - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
     # Fetch projects
     - git clone https://github.com/matthew-brett/multibuild.git
     - git clone https://github.com/da-wad/zfp.git
 
     # Check that we have the expected version and architecture for Python
-    - SET PATH=%PYTHON%;%PYTHON%\Scripts;%PYTHON%\Library\bin;%PATH%
+    - SET PATH=%PYTHON%;%PYTHON%\Lib;%PYTHON%\Libs;%PYTHON%\Scripts;%PYTHON%\Library\bin;%PATH%
     - python --version
     - python -m pip install pip
     - python -m pip install --upgrade pip
@@ -63,14 +53,20 @@ install:
     - python -c "from sysconfig import get_paths; print(get_paths()['include'])"
     - python -c "import numpy; print(numpy.get_include())"
 
+before_build:
+    - set generator="Visual Studio 14 2015"
+    - IF "%platform%" == "x64" set generator="Visual Studio 14 2015 Win64"
+
 build_script:
     - cd %REPO_DIR%
     - git checkout %BUILD_COMMIT%
     - mkdir build
     - cd build
-    - cmake .. -DBUILD_ZFPY=ON -DPYTHONLIBS=%PYTHON%\libs -DPYTHON_INCLUDE_DIR=%PYTHON%\Include -DPYTHON_NUMPY_INCLUDE_DIR=%PYTHON%\lib\site-packages\numpy\core\include
+    - cmake .. -G %generator% -DBUILD_ZFPY=ON -DPYTHON_EXECUTABLE=%PYTHON%\python -DPYTHON_LIBRARY=%PYTHON%\Libs\python35.lib -DPYTHON_INCLUDE_DIR=%PYTHON%\Include -DPYTHON_NUMPY_INCLUDE_DIR=%PYTHON%\lib\site-packages\numpy\core\include
     - cmake --build . --config Release
     - cd ..
+    - ls build
+    - ls build/bin
 
 artifacts:
     - path: "%REPO_DIR%\\dist\\*"
