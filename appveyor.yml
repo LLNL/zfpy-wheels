@@ -9,12 +9,11 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: 68971325c63c2adce812571adf6947c7ad5db78a
-    BUILDWHEEL: "True"  # trigger setup.py to include zlib.dll
+    BUILD_COMMIT: a5473624c1807fdbd1aeb2d4f2090108c13ad5ba
     BUILD_DEPENDS: "cython numpy"
-    TEST_DEPENDS: "numpy pytest"
-    DISABLE_AVX2: "True"  # do not include AVX2 in this build
-    ZFPY_VERSION: 0.5.5
+    TWINE_USERNAME: "da-wad"
+    TWINE_PASSWORD:
+        secure: "BeLHPgorVeKBrxZYhiFaeA=="
 
   matrix:
     - PYTHON: C:\Python35
@@ -31,8 +30,6 @@ environment:
 
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
-    # Fetch projects
-    - git clone https://github.com/matthew-brett/multibuild.git
     - git clone https://github.com/da-wad/zfp.git
 
     # Check that we have the expected version and architecture for Python
@@ -40,7 +37,7 @@ install:
     - python --version
     - python -m pip install pip
     - python -m pip install --upgrade pip
-    - python -m pip install cython numpy scikit-build "cmake<3.14"
+    - python -m pip install twine setuptools wheel cython numpy scikit-build "cmake<3.14"
 
     - echo %PATH%
     - echo %PYTHON%
@@ -62,20 +59,12 @@ build_script:
     - git checkout %BUILD_COMMIT%
     - mkdir build
     - cd build
-    - cmake .. -G %generator% -DBUILD_ZFPY=ON -DPYTHON_EXECUTABLE=%PYTHON%\python -DPYTHON_LIBRARY=%PYTHON%\Libs\python35.lib -DPYTHON_INCLUDE_DIR=%PYTHON%\Include -DPYTHON_NUMPY_INCLUDE_DIR=%PYTHON%\lib\site-packages\numpy\core\include
+    - cmake .. -G %generator% -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=%PYTHON%\python -DPYTHON_LIBRARY=%PYTHON%\Libs\python%PYTHON_VERSION%.lib -DPYTHON_INCLUDE_DIR=%PYTHON%\Include -DPYTHON_NUMPY_INCLUDE_DIR=%PYTHON%\lib\site-packages\numpy\core\include -DBUILD_SHARED_LIBS=OFF
     - cmake --build . --config Release
     - cd ..
     - ls build
     - ls build/bin
+    - python setup.py bdist_wheel
 
-artifacts:
-    - path: "%REPO_DIR%\\dist\\*"
-
-on_success:
-  # Upload the generated wheel package to Rackspace
-  # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
-  # disable the ssl checks.
-  - cd %REPO_DIR%
-  - python -m pip install wheelhouse-uploader
-  - python -m wheelhouse_uploader upload
-    --no-ssl-check --local-folder=dist --no-update-index wheels
+deploy_script:
+  - python -m twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/*
