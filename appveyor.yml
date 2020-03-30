@@ -9,7 +9,7 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: a5473624c1807fdbd1aeb2d4f2090108c13ad5ba
+    BUILD_COMMIT: ba69c2f26294a102312845e286038b8d664e9955
     BUILD_DEPENDS: "cython numpy"
     TWINE_USERNAME: "da-wad"
     TWINE_PASSWORD:
@@ -24,9 +24,6 @@ environment:
 
     - PYTHON: C:\Python37
       PYTHON_VERSION: 37
-
-    - PYTHON: C:\Python27
-      PYTHON_VERSION: 27
 
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
