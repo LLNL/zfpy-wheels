@@ -25,6 +25,9 @@ environment:
     - PYTHON: C:\Python37
       PYTHON_VERSION: 37
 
+    - PYTHON: C:\Python38
+      PYTHON_VERSION: 38
+
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
     - git clone https://github.com/da-wad/zfp.git
@@ -34,7 +37,11 @@ install:
     - python --version
     - python -m pip install pip
     - python -m pip install --upgrade pip
-    - python -m pip install twine setuptools wheel cython numpy scikit-build "cmake<3.14"
+    - python -m pip install twine setuptools wheel cython numpy scikit-build
+    - IF %PYTHON_VERSION% == "35" python -m pip install "cmake<3.14"
+    - IF %PYTHON_VERSION% == "36" python -m pip install "cmake<3.14"
+    - IF %PYTHON_VERSION% == "37" python -m pip install "cmake<3.14"
+    - IF %PYTHON_VERSION% == "38" python -m pip install cmake
 
     - echo %PATH%
     - echo %PYTHON%
