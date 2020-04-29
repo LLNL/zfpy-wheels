@@ -11,9 +11,9 @@ environment:
     PACKAGE_NAME: zfpy
     BUILD_COMMIT: 64f1b58af7d9dfafbc87c701decc8074a6e856e5
     BUILD_DEPENDS: "cython numpy"
-    TWINE_USERNAME: "da-wad"
+    TWINE_USERNAME: "lindstro"
     TWINE_PASSWORD:
-        secure: "BeLHPgorVeKBrxZYhiFaeA=="
+        secure: "6PZ7Kbiw/ud1cXS5NRcxSA=="
 
   matrix:
     - PYTHON: C:\Python35
