@@ -84,6 +84,5 @@ before_deploy:
 deploy:
   provider: pypi
   username: "__token__"
-  password:
-    secure: "pypi-AgEIcHlwaS5vcmcCJGQzYTFhYmY0LTg5MDQtNDJjZi1iMzUzLTIyMWVlNmMzNTdlYgACNXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJ6ZnB5Il19LCAidmVyc2lvbiI6IDF9AAAGILoQ7eK9sHsGxKGAFJcOiRp6OBkexV1JWdFon4XtI73J"
+  password: "pypi-AgEIcHlwaS5vcmcCJGQzYTFhYmY0LTg5MDQtNDJjZi1iMzUzLTIyMWVlNmMzNTdlYgACNXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJ6ZnB5Il19LCAidmVyc2lvbiI6IDF9AAAGILoQ7eK9sHsGxKGAFJcOiRp6OBkexV1JWdFon4XtI73J"
   skip_cleanup: true
