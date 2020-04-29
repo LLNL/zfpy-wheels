@@ -9,7 +9,7 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: ba69c2f26294a102312845e286038b8d664e9955
+    BUILD_COMMIT: 64f1b58af7d9dfafbc87c701decc8074a6e856e5
     BUILD_DEPENDS: "cython numpy"
     TWINE_USERNAME: "da-wad"
     TWINE_PASSWORD:
@@ -30,7 +30,7 @@ environment:
 
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
-    - git clone https://github.com/da-wad/zfp.git
+    - git clone https://github.com/LLNL/zfp.git
 
     # Check that we have the expected version and architecture for Python
     - SET PATH=%PYTHON%;%PYTHON%\Lib;%PYTHON%\Libs;%PYTHON%\Scripts;%PYTHON%\Library\bin;%PATH%
@@ -71,4 +71,4 @@ build_script:
     - python setup.py bdist_wheel
 
 deploy_script:
-  - python -m twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/*
+  - python -m twine upload --repository-url https://pypi.org/legacy/ --skip-existing dist/*
