@@ -71,4 +71,4 @@ build_script:
     - python setup.py bdist_wheel
 
 deploy_script:
-  - python -m twine upload --repository-url https://pypi.org/legacy/ --skip-existing dist/*
+  - python -m twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing dist/*
