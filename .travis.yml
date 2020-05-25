@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=zfp
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=61048ab23fe5776f8cf4185fa5b2ec24e5f96402
+        - BUILD_COMMIT=739ea17c002eb471e0e945a87f2bfae7a791c71c
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS="cython numpy"
         # pip dependencies to _test_ your project.  Include any dependencies
@@ -40,7 +40,8 @@ dist: xenial
 matrix:
   include:
     - os: linux
-      env: MB_PYTHON_VERSION=2.7
+      env:
+        - MB_PYTHON_VERSION=2.7
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.5
@@ -80,5 +81,6 @@ before_deploy:
 deploy:
   provider: pypi
   username: "__token__"
-  password: "pypi-AgEIcHlwaS5vcmcCJGQzYTFhYmY0LTg5MDQtNDJjZi1iMzUzLTIyMWVlNmMzNTdlYgACNXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJ6ZnB5Il19LCAidmVyc2lvbiI6IDF9AAAGILoQ7eK9sHsGxKGAFJcOiRp6OBkexV1JWdFon4XtI73J"
+  password:
+    secure: "y7hljjA4Vm2oYFwsclc2Nm6/j6Ph1I+tAoBuH0zGVRHoCpcNYIUYPNo27K8kyYl4larbviTkQ2QA5w4oAo4P6PuSSAFisccpo+vpkRt4eecPkeGDdcL+tpzjwbWEeHqczvcaQPGGFxe7na18UPpUV1okGIE9y2JtgSKc2fVhyNV/1rgKOYoLyWqvGpBwvRJ35S62sT2V4Q1u9w0UtRI8oUSEYUoI8DYMPY79NTsOsCuhHxG1/n82oAk7Vch5fupZfKNxmPRlPWcyEWMucXg/yg0nkdEMs7xevvnu0LQKEzFZfKLbEE4/V65ZHmam2HgQo4VrsXwkHC2xmkgwMXON5h3ssYVC/U8XpF5N0xlVYfA9n+L5iYGy0VZl5Q2iGPb6ZMXInbfSdmWrlfXuw0fHqVUowOegRqYW2TH4ZNNOyvreJNpKI1qJJM9cexpMC8ltcwpksg3dkF2sSHsfGBOdfuBy4IfAt41CR//hHHt6vI1VLwJCkBxRiG2W42W4cwF/Asn9TrV+8dpeQw/dtn4PrIBKlXP91YJzKajQm2ky06RRYdNc5bf943ILcJsP4sAOyUIVk6BYEiRcUpN2Yts0bN7id3sGofhuz9id5PWU56EJQeYk25DtWtExd1XbDvgECn9n7fwTmirlntGKbojy89v2Y3lYE0BHJxoUlP8QYRk="
   skip_cleanup: true

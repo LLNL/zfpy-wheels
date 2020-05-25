@@ -9,11 +9,11 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: 61048ab23fe5776f8cf4185fa5b2ec24e5f96402
+    BUILD_COMMIT: 739ea17c002eb471e0e945a87f2bfae7a791c71c
     BUILD_DEPENDS: "cython numpy"
-    TWINE_USERNAME: "lindstro"
+    TWINE_USERNAME: "__token__"
     TWINE_PASSWORD:
-        secure: "6PZ7Kbiw/ud1cXS5NRcxSA=="
+        secure: "j/xESWIkkgjZKJhieZta5lYn71FRvHrpwx5XNWoj5A4yaFuXfNNKVMOs2tm488lr7NSVvpaa3+dRhYV91AteeKgn9H/ZwauqdgCQz8Ee9oEHy+NH6j4zQJHls4Fbn0QormFzLtGA8VcFAkQhnDRSu8canTcBeomhylAXe1W5vSid3iafkiMXn4SZQc/v6LfQvPuRwwmNafnB7lLELyl/Lj5C2HuEte4fk2qGGoJCg5hs/ynmzW4PrvtT5Up0boKxJTFwxr1NPVJJF2Hcklbd2A=="
 
   matrix:
     - PYTHON: C:\Python35
