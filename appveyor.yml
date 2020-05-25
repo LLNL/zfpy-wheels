@@ -9,7 +9,7 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: 64f1b58af7d9dfafbc87c701decc8074a6e856e5
+    BUILD_COMMIT: 61048ab23fe5776f8cf4185fa5b2ec24e5f96402
     BUILD_DEPENDS: "cython numpy"
     TWINE_USERNAME: "lindstro"
     TWINE_PASSWORD:

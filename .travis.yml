@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=zfp
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=64f1b58af7d9dfafbc87c701decc8074a6e856e5
+        - BUILD_COMMIT=61048ab23fe5776f8cf4185fa5b2ec24e5f96402
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS="cython numpy"
         # pip dependencies to _test_ your project.  Include any dependencies
