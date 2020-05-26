@@ -9,7 +9,7 @@ environment:
   global:
     REPO_DIR: zfp
     PACKAGE_NAME: zfpy
-    BUILD_COMMIT: 739ea17c002eb471e0e945a87f2bfae7a791c71c
+    BUILD_COMMIT: cf8740a1d9b8cc54f702889febee6ec785735480
     BUILD_DEPENDS: "cython numpy"
     TWINE_USERNAME: "__token__"
     TWINE_PASSWORD:
