@@ -56,6 +56,23 @@ matrix:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
 
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=2.7
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.5
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.6
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.7
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.8
+
+
 before_install:
     - git clone https://github.com/matthew-brett/multibuild.git
     - git clone https://github.com/LLNL/zfp.git
