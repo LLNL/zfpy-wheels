@@ -102,5 +102,5 @@ deploy:
   provider: pypi
   username: "__token__"
   server: https://testpypi.python.org/pypi
-  password:= pypi-AgENdGVzdC5weXBpLm9yZwIkM2FkNWFlZDYtOTNlNi00MDZjLTkwNTUtMTMyYzkwZWZmZTIyAAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDt9Py8-P9FR9ms2lTs0d_LXDXPX47qEu4qgttoZRlHLQ
+  password: pypi-AgENdGVzdC5weXBpLm9yZwIkM2FkNWFlZDYtOTNlNi00MDZjLTkwNTUtMTMyYzkwZWZmZTIyAAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDt9Py8-P9FR9ms2lTs0d_LXDXPX47qEu4qgttoZRlHLQ
   skip_cleanup: true
