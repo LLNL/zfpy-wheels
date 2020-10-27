@@ -1,6 +1,12 @@
 # Define custom utilities
 # Test for macOS with [ -n "$IS_OSX" ]
 
+function second_build {
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+        cp $(pwd)/zfp/build/lib/libzfp.so $(pwd)/zfp/build/lib.macosx*/. 
+        install_name_tool -change ../lib/libzfp.so libzfp.so $(pwd)/zfp/build/lib.macosx*/zfpy.*.so 
+    fi
+}
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.

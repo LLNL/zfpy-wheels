@@ -84,6 +84,9 @@ install:
     # Maybe get and clean and patch source
     - clean_code $REPO_DIR $BUILD_COMMIT
     - build_wheel $REPO_DIR $PLAT
+    - second_build
+    - build_wheel $REPO_DIR $PLAT
+  
 
 script:
     - install_run $PLAT
@@ -98,6 +101,6 @@ before_deploy:
 deploy:
   provider: pypi
   username: "__token__"
-  password:
-    secure: "y7hljjA4Vm2oYFwsclc2Nm6/j6Ph1I+tAoBuH0zGVRHoCpcNYIUYPNo27K8kyYl4larbviTkQ2QA5w4oAo4P6PuSSAFisccpo+vpkRt4eecPkeGDdcL+tpzjwbWEeHqczvcaQPGGFxe7na18UPpUV1okGIE9y2JtgSKc2fVhyNV/1rgKOYoLyWqvGpBwvRJ35S62sT2V4Q1u9w0UtRI8oUSEYUoI8DYMPY79NTsOsCuhHxG1/n82oAk7Vch5fupZfKNxmPRlPWcyEWMucXg/yg0nkdEMs7xevvnu0LQKEzFZfKLbEE4/V65ZHmam2HgQo4VrsXwkHC2xmkgwMXON5h3ssYVC/U8XpF5N0xlVYfA9n+L5iYGy0VZl5Q2iGPb6ZMXInbfSdmWrlfXuw0fHqVUowOegRqYW2TH4ZNNOyvreJNpKI1qJJM9cexpMC8ltcwpksg3dkF2sSHsfGBOdfuBy4IfAt41CR//hHHt6vI1VLwJCkBxRiG2W42W4cwF/Asn9TrV+8dpeQw/dtn4PrIBKlXP91YJzKajQm2ky06RRYdNc5bf943ILcJsP4sAOyUIVk6BYEiRcUpN2Yts0bN7id3sGofhuz9id5PWU56EJQeYk25DtWtExd1XbDvgECn9n7fwTmirlntGKbojy89v2Y3lYE0BHJxoUlP8QYRk="
+  server: https://testpypi.python.org/pypi
+  password:= pypi-AgENdGVzdC5weXBpLm9yZwIkM2FkNWFlZDYtOTNlNi00MDZjLTkwNTUtMTMyYzkwZWZmZTIyAAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDt9Py8-P9FR9ms2lTs0d_LXDXPX47qEu4qgttoZRlHLQ
   skip_cleanup: true
