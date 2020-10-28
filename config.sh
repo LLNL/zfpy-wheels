@@ -5,9 +5,11 @@ function build_wheel {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         build_bdist_wheel $@
         second_build
-        local repo_dir=${2:-$REPO_DIR}
+        local repo_dir=${1:-$REPO_DIR}
+        echo $repo_dir
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
-        cd $repo_dir
+        echo $wheelhouse
+        cd $(pwd)/$REPO_DIR
         bdist_wheel_cmd $wheel_house
     else
         build_pip_wheel $@
