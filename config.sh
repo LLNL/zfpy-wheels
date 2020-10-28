@@ -3,6 +3,7 @@
 
 function second_build {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
+        ls $(pwd)/zfp/build/lib/libzfp*
         cp $(pwd)/zfp/build/lib/libzfp.so $(pwd)/zfp/build/lib.macosx*/. 
         install_name_tool -change ../lib/libzfp.so libzfp.so $(pwd)/zfp/build/lib.macosx*/zfpy.*.so 
     fi
