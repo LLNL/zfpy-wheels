@@ -5,7 +5,12 @@ function build_wheel {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         build_bdist_wheel $@
         second_build
-        $PYTHON_EXE setup.py bdist_wheel --v
+        local repo_dir=${2:-$REPO_DIR}
+        local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
+        cd $repo_dir
+        bdist_wheel_cmd $wheel_house
+    else
+        build_pip_wheel $@
     fi
        
 }
