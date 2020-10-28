@@ -5,20 +5,18 @@ function build_wheel {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         build_bdist_wheel $@
         second_build
-        build_bdist_wheel $@
+        $PYTHON_EXE setup.py bdist_wheel --v
     fi
        
 }
 
 function second_build {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-        ls -al $(pwd)/zfp/build/lib/libzfp*
-        ls -al $(pwd)/zfp/build/lib.macosx*/.
-        echo $WHEEL_SDIR
-        otool -l $(pwd)/zfp/build/lib.macosx*/*.so
         cp $(pwd)/zfp/build/lib/libzfp.* $(pwd)/zfp/build/lib.macosx*/. 
+        ls -al $(pwd)/zfp/build/lib.macosx*/.
         
         install_name_tool -add_rpath . $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
+        otool -l $(pwd)/zfp/build/lib.macosx*/*.so
     fi
 }
 function pre_build {
