@@ -10,7 +10,7 @@ function build_wheel {
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
         echo $wheelhouse
         cd $(pwd)/$REPO_DIR
-        bdist_wheel_cmd $wheel_house
+        bdist_wheel_cmd $wheelhouse
     else
         build_pip_wheel $@
     fi
