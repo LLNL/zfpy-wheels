@@ -9,9 +9,7 @@ function build_wheel {
         pushd $(pwd)/$REPO_DIR
         rm $wheelhouse/*
         otool -l $(pwd)/build/lib.macosx*/*.so
-        echo 
         bdist_wheel_cmd $wheelhouse
-        unzip -l $wheelhouse/*
         popd
     else
         build_pip_wheel $@
@@ -22,7 +20,7 @@ function build_wheel {
 function copy_zfpdylib {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         cp $(pwd)/zfp/build/lib/libzfp.* $(pwd)/zfp/build/lib.macosx*/. 
-        install_name_tool -add_rpath . $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
+        install_name_tool -add_rpath @loader_path $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
     fi
 }
 function pre_build {

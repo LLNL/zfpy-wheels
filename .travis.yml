@@ -102,3 +102,5 @@ deploy:
   server: https://test.pypi.org/legacy/
   password: pypi-AgENdGVzdC5weXBpLm9yZwIkM2FkNWFlZDYtOTNlNi00MDZjLTkwNTUtMTMyYzkwZWZmZTIyAAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDt9Py8-P9FR9ms2lTs0d_LXDXPX47qEu4qgttoZRlHLQ
   skip_cleanup: true
+  skip_existing: true
+  
