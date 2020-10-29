@@ -8,10 +8,10 @@ function build_wheel {
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
         pushd $(pwd)/$REPO_DIR
         rm $wheelhouse/*
-        otool -l $(pwd)/zfp/build/lib.macosx*/.
+        otool -l $(pwd)/build/lib.macosx*/*.so
         echo 
         bdist_wheel_cmd $wheelhouse
-        unzip -l $wheelhouse/*.so
+        unzip -l $wheelhouse/*
         popd
     else
         build_pip_wheel $@
