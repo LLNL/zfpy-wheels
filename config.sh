@@ -7,10 +7,14 @@ function build_wheel {
         second_build
         local repo_dir=${1:-$REPO_DIR}
         echo $repo_dir
+        echo $MULTIBUILD_DIR
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
         echo $wheelhouse
         cd $(pwd)/$REPO_DIR
         bdist_wheel_cmd $wheelhouse
+        ls -al $wheelhouse
+        echo $(pwd)
+        echo $MULTIBUILD_DIR
     else
         build_pip_wheel $@
     fi
