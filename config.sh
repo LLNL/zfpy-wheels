@@ -8,7 +8,6 @@ function build_wheel {
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
         pushd $(pwd)/$REPO_DIR
         rm $wheelhouse/*
-        otool -l $(pwd)/build/lib.macosx*/*.so
         bdist_wheel_cmd $wheelhouse
         popd
     else
