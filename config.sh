@@ -6,13 +6,12 @@ function build_wheel {
         build_bdist_wheel $@
         second_build
         local repo_dir=${1:-$REPO_DIR}
-        echo $repo_dir
-        echo $MULTIBUILD_DIR
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
-        echo $wheelhouse
-        cd $(pwd)/$REPO_DIR
+        pushd $(pwd)/$REPO_DIR
+        rm $wheelhouse/*
         bdist_wheel_cmd $wheelhouse
         ls -al $wheelhouse
+        popd
         echo $(pwd)
         echo $MULTIBUILD_DIR
     else
