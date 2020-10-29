@@ -4,29 +4,22 @@
 function build_wheel {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         build_bdist_wheel $@
-        second_build
-        local repo_dir=${1:-$REPO_DIR}
+        copy_zfpdylib
         local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
         pushd $(pwd)/$REPO_DIR
         rm $wheelhouse/*
         bdist_wheel_cmd $wheelhouse
-        ls -al $wheelhouse
         popd
-        echo $(pwd)
-        echo $MULTIBUILD_DIR
     else
         build_pip_wheel $@
     fi
        
 }
 
-function second_build {
+function copy_zfpdylib {
     if [ $TRAVIS_OS_NAME == "osx" ]; then
         cp $(pwd)/zfp/build/lib/libzfp.* $(pwd)/zfp/build/lib.macosx*/. 
-        ls -al $(pwd)/zfp/build/lib.macosx*/.
-        
         install_name_tool -add_rpath . $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
-        otool -l $(pwd)/zfp/build/lib.macosx*/*.so
     fi
 }
 function pre_build {
@@ -68,5 +61,5 @@ function pre_build {
 
 function run_tests {
     # Everything on llnl/zfp devel branch has passed unit tests.
-    :
+    python ../run_tests.py
 }
