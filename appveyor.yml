@@ -1,5 +1,5 @@
-os: Visual Studio 2015
-image: Visual Studio 2015
+os: Visual Studio 2019
+image: Visual Studio 2019
 
 platform:
   - x64
@@ -46,6 +46,7 @@ install:
     - IF %PYTHON_VERSION% == "36" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "37" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "38" python -m pip install cmake
+    - IF %PYTHON_VERSION% == "39" python -m pip install cmake
 
     - echo %PATH%
     - echo %PYTHON%
