@@ -41,12 +41,6 @@ matrix:
   include:
     - os: linux
       env:
-        - MB_PYTHON_VERSION=2.7
-    - os: linux
-      env:
-        - MB_PYTHON_VERSION=3.5
-    - os: linux
-      env:
         - MB_PYTHON_VERSION=3.6
     - os: linux
       env:
@@ -55,13 +49,11 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.8
         - MB_ML_VER=2010
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.9
+        - MB_ML_VER=2010
 
-    - os: osx
-      env:
-        - MB_PYTHON_VERSION=2.7
-    - os: osx
-      env:
-        - MB_PYTHON_VERSION=3.5
     - os: osx
       env:
         - MB_PYTHON_VERSION=3.6
@@ -71,6 +63,9 @@ matrix:
     - os: osx
       env:
         - MB_PYTHON_VERSION=3.8
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.9
 
 
 before_install:

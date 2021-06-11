@@ -13,7 +13,9 @@ function pre_build {
     else
         # Need to tell auditwheel where to find libzfp
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/zfp/build/lib64/
-        $PYTHON_EXE -m pip install "cmake<3.14"
+        $PYTHON_EXE -m pip install \
+        "cmake < 3.14; python_version < '3.8'" \
+        "cmake; python_version >= '3.8'"
     fi
 
     PYTHON_LIB=$($PYTHON_EXE -c "from distutils import sysconfig; print(sysconfig.get_config_var('LIBDIR'))")
