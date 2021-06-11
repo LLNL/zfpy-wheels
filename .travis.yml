@@ -55,15 +55,19 @@ matrix:
         - MB_ML_VER=2010
 
     - os: osx
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.6
     - os: osx
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.7
     - os: osx
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.8
     - os: osx
+      language: generic
       env:
         - MB_PYTHON_VERSION=3.9
 
