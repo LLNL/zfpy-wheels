@@ -1,6 +1,27 @@
 # Define custom utilities
 # Test for macOS with [ -n "$IS_OSX" ]
 
+function build_wheel {
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+        build_bdist_wheel $@
+        copy_zfpdylib
+        local wheelhouse=$(abspath ${WHEEL_SDIR:-wheelhouse})
+        pushd $(pwd)/$REPO_DIR
+        rm $wheelhouse/*
+        bdist_wheel_cmd $wheelhouse
+        popd
+    else
+        build_pip_wheel $@
+    fi
+       
+}
+
+function copy_zfpdylib {
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+        cp $(pwd)/zfp/build/lib/libzfp.* $(pwd)/zfp/build/lib.macosx*/. 
+        install_name_tool -add_rpath @loader_path $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
+    fi
+}
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
@@ -42,5 +63,5 @@ function pre_build {
 
 function run_tests {
     # Everything on llnl/zfp devel branch has passed unit tests.
-    :
+    python ../run_tests.py
 }
