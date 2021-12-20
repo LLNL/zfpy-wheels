@@ -9,61 +9,36 @@ jobs:
     strategy:
       matrix:
         os:  [ubuntu-20.04]
-        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
       - uses: actions/checkout@v2
         with:
           repository: 'LLNL/zfp'
           ref: '3bdb7fa31ca8e085fe2c81c6c2044606162e8006'
-          path: 'zfp'
 
       - uses: actions/setup-python@v2
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.3.1
+
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp38-manylinux_x86_64 cp39-manylinux_x86_64 cp310-manylinux_x86_64"
+          CIBW_BEFORE_BUILD: pip install numpy cython scikit-build cmake;
+                             NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())');
+                             PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
+                             PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
+                             PYTHON_EXE=$(python -c 'import sys; print(sys.executable)');
+                             mkdir build;
+                             cd build;
+                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
+                             make;
+                             cd ..;
+                             cp build/lib64/libzfp* /usr/local/lib64
+
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@master
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - if: contains('3.7', matrix.python-version )
-        name: Install dependencies, cmake<3.14
-        run: |
-          python -m pip install --upgrade pip
-          pip install numpy cython scikit-build auditwheel
-          pip install 'cmake<3.14'
-          cmake --version
-
-      - if: contains('3.8, 3.9, 3.10', matrix.python-version )
-        name: Install dependencies cmake>=3.14
-        run: |
-          python -m pip install --upgrade pip
-          pip install numpy cython scikit-build
-          pip install cmake
-          cmake --version
-
-      - name: Run CMake build
-        run: |
-          NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())')
-          PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])')
-          PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-          PYTHON_EXE=$(python -c 'import sys; print(sys.executable)')
-          BUILD_DIR="zfp/build"
-
-          echo $BUILD_DIR
-          echo $PYTHON_EXE
-          echo $PYTHON_LIB
-          echo $PYTHON_INCLUDE
-          echo $NUMPY_INCLUDE
-
-          mkdir $BUILD_DIR
-          pushd $BUILD_DIR
-
-          cmake --version
-          cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE
-          make
-
-          popd
-
-          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/zfp/build/lib64/
-
-          cd zfp
-          mv build/lib build/lib64
-          python setup.py bdist_wheel
-          auditwheel repair dist/*
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
