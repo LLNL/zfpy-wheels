@@ -53,6 +53,10 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.9
         - MB_ML_VER=2010
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.10
+        - MB_ML_VER=2010
 
     - os: osx
       language: generic
@@ -70,6 +74,10 @@ matrix:
       language: generic
       env:
         - MB_PYTHON_VERSION=3.9
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.10
 
 
 before_install:

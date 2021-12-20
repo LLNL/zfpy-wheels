@@ -28,6 +28,9 @@ environment:
     - PYTHON: C:\Python39
       PYTHON_VERSION: 39
 
+    - PYTHON: C:\Python310
+      PYTHON_VERSION: 310
+
 
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
@@ -43,6 +46,7 @@ install:
     - IF %PYTHON_VERSION% == "37" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "38" python -m pip install cmake
     - IF %PYTHON_VERSION% == "39" python -m pip install cmake
+    - IF %PYTHON_VERSION% == "310" python -m pip install cmake
 
     - echo %PATH%
     - echo %PYTHON%
