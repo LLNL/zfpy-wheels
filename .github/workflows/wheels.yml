@@ -36,6 +36,8 @@ jobs:
                              make;
                              cd ..;
                              cp build/lib64/libzfp* /usr/local/lib64
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: cp build/lib/libzfp.* build/lib.macosx*/. 
+                                           install_name_tool -add_rpath @loader_path $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
