@@ -24,7 +24,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir dist
         env:
-          CIBW_BUILD: "cp38-manylinux_x86_64 cp39-manylinux_x86_64 cp310-manylinux_x86_64"
+          CIBW_BUILD: "cp38-macosx_x86_64 cp39-macosx_x86_64 cp310-macosx_x86_64 cp38-manylinux_x86_64 cp39-manylinux_x86_64 cp310-manylinux_x86_64"
           CIBW_BEFORE_BUILD: pip install numpy cython scikit-build cmake;
                              NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())');
                              PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
