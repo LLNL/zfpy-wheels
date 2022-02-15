@@ -25,7 +25,7 @@ jobs:
         run: python -m cibuildwheel --output-dir dist
         env:
           CIBW_BUILD: "cp38-macosx_x86_64 cp39-macosx_x86_64 cp310-macosx_x86_64 cp38-manylinux_x86_64 cp39-manylinux_x86_64 cp310-manylinux_x86_64"
-          CIBW_BEFORE_BUILD: pip install numpy cython scikit-build cmake;
+          CIBW_BEFORE_BUILD_LINUX: pip install numpy cython scikit-build cmake;
                              NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())');
                              PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
                              PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
@@ -37,8 +37,19 @@ jobs:
                              export REPAIR_LIBRARY_PATH=$LD_LIBRARY_PATH
                              cd ..;
                              cp build/lib*/libzfp* /usr/local/lib64
-          CIBW_BEFORE_BUILD_MACOS: delocate-listdeps {wheel} 
-                                   delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
+          CIBW_BEFORE_BUILD_MACOS: pip install numpy cython scikit-build cmake;
+                             NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())');
+                             PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
+                             PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
+                             PYTHON_EXE=$(python -c 'import sys; print(sys.executable)');
+                             mkdir build;
+                             cd build;
+                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
+                             make;
+                             cd ..;
+                             cp build/lib/libzfp.* build/lib.macosx*/. 
+                             install_name_tool -add_rpath @loader_path build/lib.macosx*/zfpy*.so 
+                                   
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
