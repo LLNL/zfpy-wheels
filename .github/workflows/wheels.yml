@@ -34,7 +34,6 @@ jobs:
                              cd build;
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
-                             export REPAIR_LIBRARY_PATH=$LD_LIBRARY_PATH
                              cd ..;
                              cp build/lib*/libzfp* /usr/local/lib64
           CIBW_BEFORE_BUILD_MACOS: pip install numpy cython scikit-build cmake;
@@ -47,7 +46,7 @@ jobs:
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
                              cd ..;
-                             cp build/lib/libzfp.* build/lib.macosx*/. 
+                             cp build/lib/libzfp.* build/lib.macosx*/.;
                              install_name_tool -add_rpath @loader_path build/lib.macosx*/zfpy*.so 
                                    
 
