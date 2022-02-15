@@ -34,12 +34,11 @@ jobs:
                              cd build;
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
+                             export REPAIR_LIBRARY_PATH=$LD_LIBRARY_PATH
                              cd ..;
-                             if [ runner.os == "macOS"]; then
-                                 cp build/lib/libzfp.* build/lib.macosx*/. 
-                                 install_name_tool -add_rpath @loader_path $(pwd)/zfp/build/lib.macosx*/zfpy*.so 
-                             else
-                                 cp build/lib64/libzfp* /usr/local/lib64
+                             cp build/lib*/libzfp* /usr/local/lib64
+          CIBW_BEFORE_BUILD_MACOS: delocate-listdeps {wheel} 
+                                   delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
