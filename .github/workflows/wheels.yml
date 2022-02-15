@@ -1,0 +1,43 @@
+name: Wheels
+
+on: [push, pull_request]
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }} for Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:  [ubuntu-20.04]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'LLNL/zfp'
+          ref: '3bdb7fa31ca8e085fe2c81c6c2044606162e8006'
+
+      - uses: actions/setup-python@v2
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.3.1
+
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp38-manylinux_x86_64 cp39-manylinux_x86_64 cp310-manylinux_x86_64"
+          CIBW_BEFORE_BUILD: pip install numpy cython scikit-build cmake;
+                             NUMPY_INCLUDE=$(python -c 'import numpy; print(numpy.get_include())');
+                             PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
+                             PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
+                             PYTHON_EXE=$(python -c 'import sys; print(sys.executable)');
+                             mkdir build;
+                             cd build;
+                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
+                             make;
+                             cd ..;
+                             cp build/lib64/libzfp* /usr/local/lib64
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}

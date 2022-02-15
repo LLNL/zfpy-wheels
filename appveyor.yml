@@ -1,5 +1,5 @@
-os: Visual Studio 2015
-image: Visual Studio 2015
+os: Visual Studio 2019
+image: Visual Studio 2019
 
 platform:
   - x64
@@ -16,9 +16,6 @@ environment:
         secure: "j/xESWIkkgjZKJhieZta5lYn71FRvHrpwx5XNWoj5A4yaFuXfNNKVMOs2tm488lr7NSVvpaa3+dRhYV91AteeKgn9H/ZwauqdgCQz8Ee9oEHy+NH6j4zQJHls4Fbn0QormFzLtGA8VcFAkQhnDRSu8canTcBeomhylAXe1W5vSid3iafkiMXn4SZQc/v6LfQvPuRwwmNafnB7lLELyl/Lj5C2HuEte4fk2qGGoJCg5hs/ynmzW4PrvtT5Up0boKxJTFwxr1NPVJJF2Hcklbd2A=="
 
   matrix:
-    - PYTHON: C:\Python35
-      PYTHON_VERSION: 35
-
     - PYTHON: C:\Python36
       PYTHON_VERSION: 36
 
@@ -27,6 +24,13 @@ environment:
 
     - PYTHON: C:\Python38
       PYTHON_VERSION: 38
+      
+    - PYTHON: C:\Python39
+      PYTHON_VERSION: 39
+
+    - PYTHON: C:\Python310
+      PYTHON_VERSION: 310
+
 
 install:
     - IF "%platform%" == "x64" SET PYTHON=%PYTHON%-x64
@@ -38,10 +42,11 @@ install:
     - python -m pip install pip
     - python -m pip install --upgrade pip
     - python -m pip install twine setuptools wheel cython numpy scikit-build
-    - IF %PYTHON_VERSION% == "35" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "36" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "37" python -m pip install "cmake<3.14"
     - IF %PYTHON_VERSION% == "38" python -m pip install cmake
+    - IF %PYTHON_VERSION% == "39" python -m pip install cmake
+    - IF %PYTHON_VERSION% == "310" python -m pip install cmake
 
     - echo %PATH%
     - echo %PYTHON%
@@ -50,7 +55,7 @@ install:
     - ls %PYTHON%\lib\site-packages\numpy\core\include\numpy
 
     # Set some variables to be used in the build
-    - python -c "from distutils import sysconfig; print(sysconfig.get_config_var('LIBDIR'))"
+    - python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))"
     - python -c "from sysconfig import get_paths; print(get_paths()['include'])"
     - python -c "import numpy; print(numpy.get_include())"
 
