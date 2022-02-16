@@ -48,7 +48,7 @@ jobs:
                              cd ..;
                              mkdir build/lib/Release;
                              cp -r build/lib/libzfp.*  build/lib/Release;
-                             REPAIR_PATH=$(pwd);
+                             REPAIR_PATH=$(pwd)/build/lib/Release;
                              ls $REPAIR_PATH;
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
              DYLD_LIBRARY_PATH=$REPAIR_PATH delocate-listdeps {wheel} &&
