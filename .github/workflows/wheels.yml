@@ -46,11 +46,11 @@ jobs:
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
                              cd ..;
-                             #mkdir build/lib/Release;
-                             export LD_LIBRARY_PATH=$(pwd)/build/lib:$LD_LIBRARY_PATH;
-                             #cp -r build/lib/libzfp.* build/lib/Release/;
+                             mkdir build/lib/Release;
+                             #export LD_LIBRARY_PATH=$(pwd)/build/lib:$LD_LIBRARY_PATH;
+                             cp -r build/lib/libzfp.* build/lib/Release/;
                              #ls -al build/lib/Release;
-                             REPAIR_LIBRARY_PATH="$(pwd)/build/lib";
+                             REPAIR_LIBRARY_PATH=$($(pwd)/build/lib/Release);
                              #install_name_tool -add_rpath @loader_path build/bin/zfpy*.so 
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: echo $(REPAIR_LIBRARY_PATH); 
                                            DYLD_LIBRARY_PATH=$REPAIR_LIBRARY_PATH delocate-listdeps {wheel} &&
