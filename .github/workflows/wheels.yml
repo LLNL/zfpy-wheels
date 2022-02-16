@@ -48,8 +48,8 @@ jobs:
                              cd ..;
                              mkdir build/lib/Release;
                              cp -r build/lib/libzfp.*  build/lib/Release;
-                             REPARE_PATH=$(pwd)
-                             ls $REPARE_PATH
+                             REPAIR_PATH=$(pwd);
+                             ls $REPAIR_PATH;
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
   DYLD_LIBRARY_PATH=$REPAIR_PATH delocate-listdeps {wheel} &&
   DYLD_LIBRARY_PATH=$REPAIR_PATH delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
@@ -58,3 +58,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
