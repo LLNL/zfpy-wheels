@@ -47,7 +47,7 @@ jobs:
                              make;
                              cd ..;
                              #mkdir build/lib/Release;
-                             export LD_LIBRARY_PATH=$(pwd)/build/lib:$LD_LIBRARY_PATH
+                             export LD_LIBRARY_PATH=$(pwd)/build/lib:$LD_LIBRARY_PATH;
                              #cp -r build/lib/libzfp.* build/lib/Release/;
                              #ls -al build/lib/Release;
                              REPAIR_LIBRARY_PATH="$(pwd)/build/lib";
