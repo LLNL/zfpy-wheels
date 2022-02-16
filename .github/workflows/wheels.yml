@@ -48,7 +48,7 @@ jobs:
                              cd ..;
                              ls -al build/bin;
                              ls -al build/lib;
-                             otool -L build/bin/zfp*so
+                             otool -L build/bin/zfp*so;
                              install_name_tool -add_rpath @loader_path build/lib/zfpy*.so 
                                    
 
