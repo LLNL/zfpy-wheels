@@ -48,8 +48,8 @@ jobs:
                              cd ..;
                              mkdir build/lib/Release;
                              cp -r build/lib/libzfp.*  build/lib/Release;
-                             REPAIR_PATH=$(python -c 'import os; print(os.getcwd())')
-                             ls $(REPAIR_PATH)/build/lib/Release
+                             REPARE_PATH=$(python -c 'import os; print(os.getcwd())')
+                             ls $REPARE_PATH/build/lib/Release
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
