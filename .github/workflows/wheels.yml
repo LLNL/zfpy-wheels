@@ -46,13 +46,11 @@ jobs:
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
                              cd ..;
-                             ls -al build/bin;
-                             ls -al build/lib;
-                             otool -L build/bin/zfp*so;
                              mkdir build/lib/Release;
                              cp -r build/lib/libzfp.* build/lib/Release/;
+                             ls -al build/lib/Release;
                              #install_name_tool -add_rpath @loader_path build/bin/zfpy*.so 
-                                   
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: ""
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
