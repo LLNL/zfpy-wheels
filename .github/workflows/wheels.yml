@@ -48,7 +48,6 @@ jobs:
                              cd ..;
                              mkdir build/lib/Release;
                              cp -r build/lib/libzfp.*  build/lib/Release;
-                             #install_name_tool -add_rpath @loader_path build/bin/zfpy*.so 
                              REPAIR_PATH=$(python -c 'import os; print(os.getcwd()')
 
       - name: Publish to PyPI
