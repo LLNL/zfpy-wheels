@@ -8,12 +8,9 @@ Repository for wheel building of zfpy, the official Python bindings for the zfp 
 
 ## What it does ##
 
-When triggered on Travis, this repository:
+When the Github Actions workflow is triggered, this repository:
 - Fetches a specific tag/commit from the main zfp repository
-- Clones the [multibuild repository](https://github.com/matthew-brett/multibuild)
-- Builds zfp, using the options for building the Python bindings
-- Uses scripts from the multibuild repository to:
-  - Build wheels for various environments
-  - Delocalize the wheels (bundle libzfp.so into them)
-- Uploads the wheels to PyPI, using an encrypted API token.
- 
+- Uses cibuildwheel to:
+  - Build zfp on various platforms, using the options for building the Python bindings
+  - Delocalize the resulting wheels (bundle libzfp.so into them)
+- Uploads the wheels to PyPI, using an API token stored as a repository secret.
