@@ -49,7 +49,8 @@ jobs:
                              ls -al build/bin;
                              ls -al build/lib;
                              otool -L build/bin/zfp*so;
-                             install_name_tool -add_rpath @loader_path build/lib/zfpy*.so 
+                             cp build/lib/libzfp.* build/bin/.;
+                             install_name_tool -add_rpath @loader_path build/bin/zfpy*.so :w
                                    
 
       - name: Publish to PyPI
