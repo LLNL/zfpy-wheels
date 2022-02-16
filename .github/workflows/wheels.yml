@@ -46,9 +46,10 @@ jobs:
                              cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_EXECUTABLE=$PYTHON_EXE -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DPYTHON_NUMPY_INCLUDE_DIR=$NUMPY_INCLUDE;
                              make;
                              cd ..;
-                             mkdir /usr/local/lib64;
-                             cp -r build/lib/libzfp.*  /usr/local/lib64;
+                             mkdir build/lib/Release;
+                             cp -r build/lib/libzfp.*  build/lib/Release;
                              #install_name_tool -add_rpath @loader_path build/bin/zfpy*.so 
+                             REPAIR_PATH=$(python -c 'import os; print(os.getcwd()')
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
