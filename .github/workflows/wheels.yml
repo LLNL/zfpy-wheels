@@ -47,11 +47,8 @@ jobs:
                              make;
                              cd ..;
                              mkdir build/lib/Release;
-                             #cp -r build/lib/libzfp.* build/lib/Release/;
                              cp -r build/lib/libzfp.*  /usr/local/lib64;
                              #install_name_tool -add_rpath @loader_path build/bin/zfpy*.so 
-          #CIBW_REPAIR_WHEEL_COMMAND_MACOS: DYLD_LIBRARY_PATH=$(pwd)/build/lib/Release delocate-listdeps {wheel} &&
-          #                                 DYLD_LIBRARY_PATH=$(pwd)/build/lib/Release delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@master
