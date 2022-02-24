@@ -52,7 +52,18 @@ jobs:
              DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib/Release delocate-listdeps {wheel} &&
              DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib/Release delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@master
+  publish:
+    needs: build_wheels
+    name: Publish wheels to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+
+      - name: Publish wheels to PyPI
+
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
+          packages_dir: artifact
