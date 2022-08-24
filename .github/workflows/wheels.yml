@@ -8,13 +8,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:  [macos-latest]
+        os:  [macos-latest, ubuntu-20.04, windows-2019]
 
     steps:
       - uses: actions/checkout@v2
         with:
           repository: 'da-wad/zfp'
-          ref: '99bc117c886b23d7dd01c21b13238a7efd572155'
+          ref: '3e68b97c9eb0dfa3aa2ec680683935f901e6857f'
 
       - uses: actions/setup-python@v2
 
@@ -24,23 +24,48 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: "cp310-macosx_x86_64 cp39-macosx_x86_64 cp38-macosx_x86_64 cp37-macosx_x86_64
-                       cp310-macosx_arm64 cp39-macosx_arm64 cp38-macosx_arm64"
+          CIBW_BUILD: "cp310-win_amd64 cp39-win_amd64 cp38-win_amd64 cp37-win_amd64
+                       cp310-macosx_x86_64 cp39-macosx_x86_64 cp38-macosx_x86_64 cp37-macosx_x86_64
+                       cp310-macosx_arm64 cp39-macosx_arm64 cp38-macosx_arm64
+                       cp310-manylinux_x86_64 cp39-manylinux_x86_64 cp38-manylinux_x86_64 cp37-manylinux_x86_64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
-          CIBW_BEFORE_BUILD_MACOS: pip install numpy cython scikit-build cmake;
+          CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install numpy cython scikit-build cmake &
+                             PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()[\"include\"])') &
+                             PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var(\"LIBDIR\"))') &
+                             mkdir build &
+                             cd build &
+                             cmake .. -G \"Visual Studio 16 2019\" -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DBUILD_SHARED_LIBS=OFF &
+                             cmake --build . --config Release &
+                             cd .. &
+                             python setup.py bdist_wheel"
+          CIBW_BEFORE_BUILD_LINUX: pip install numpy cython scikit-build cmake;
                              PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
                              PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
                              mkdir build;
                              cd build;
-                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DBUILD_SHARED_LIBS=OFF;
+                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE;
+                             make;
+                             cd ..;
+                             cp build/lib*/libzfp* /usr/local/lib64;
+          CIBW_BEFORE_BUILD_MACOS: pip install numpy cython scikit-build cmake;
+                             PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()["include"])');
+                             PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))');
+                             rm -rf build;
+                             mkdir build;
+                             cd build;
+                             cmake .. -DBUILD_ZFPY=ON -DBUILD_TESTING=OFF -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INCLUDE -DBUILD_SHARED_LIBS=ON;
                              make;
                              cd ..;
                              mkdir build/lib/Release;
                              cp -RP build/lib/libzfp.*  build/lib/Release;
+                             ls build;
+                             ls build/bin;
                              ls build/lib;
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
-             DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib/Release delocate-listdeps {wheel} &&
-             DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib/Release delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel}
+             otool -L /Users/runner/work/zfpy-wheels/zfpy-wheels/build/bin/zfpy.cpython-*-darwin.so &&
+             otool -l /Users/runner/work/zfpy-wheels/zfpy-wheels/build/bin/zfpy.cpython-*-darwin.so &&
+             DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib delocate-listdeps {wheel} &&
+             DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib delocate-wheel --require-archs {delocate_archs} -v -w {dest_dir} {wheel}
 
       - uses: actions/upload-artifact@v2
         with:
