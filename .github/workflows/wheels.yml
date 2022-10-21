@@ -8,13 +8,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:  [macos-latest, ubuntu-20.04, windows-2019]
+        os:  [ubuntu-20.04]
 
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'da-wad/zfp'
-          ref: '3e68b97c9eb0dfa3aa2ec680683935f901e6857f'
+          repository: 'llnl/zfp'
+          ref: 'f39af72648a2aeb88e9b2cca8c64f51b493ad5f4'
 
       - uses: actions/setup-python@v2
 
@@ -24,11 +24,9 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: "cp310-win_amd64 cp39-win_amd64 cp38-win_amd64 cp37-win_amd64
-                       cp310-macosx_x86_64 cp39-macosx_x86_64 cp38-macosx_x86_64 cp37-macosx_x86_64
-                       cp310-macosx_arm64 cp39-macosx_arm64 cp38-macosx_arm64
-                       cp310-manylinux_x86_64 cp39-manylinux_x86_64 cp38-manylinux_x86_64 cp37-manylinux_x86_64"
+          CIBW_BUILD: "cp310-manylinux_aarch64 cp39-manylinux_aarch64 cp38-manylinux_aarch64 cp37-manylinux_aarch64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
+          CIBW_ARCHS_LINUX: "x86_64 aarch64"
           CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install numpy cython scikit-build cmake &
                              PYTHON_INCLUDE=$(python -c 'from sysconfig import get_paths; print(get_paths()[\"include\"])') &
                              PYTHON_LIB=$(python -c 'import sysconfig; print(sysconfig.get_config_var(\"LIBDIR\"))') &
