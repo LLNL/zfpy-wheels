@@ -30,11 +30,11 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: "cp311-win_amd64
-                       cp311-macosx_x86_64
-                       cp311-macosx_arm64
-                       cp311-manylinux_x86_64
-                       cp311-manylinux_aarch64"
+          CIBW_BUILD: "cp311-win_amd64 cp310-win_amd64 cp39-win_amd64 cp38-win_amd64 cp37-win_amd64
+                       cp311-macosx_x86_64 cp310-macosx_x86_64 cp39-macosx_x86_64 cp38-macosx_x86_64 cp37-macosx_x86_64
+                       cp311-macosx_arm64 cp310-macosx_arm64 cp39-macosx_arm64 cp38-macosx_arm64
+                       cp311-manylinux_x86_64 cp310-manylinux_x86_64 cp39-manylinux_x86_64 cp38-manylinux_x86_64 cp37-manylinux_x86_64
+                       cp311-manylinux_aarch64 cp310-manylinux_aarch64 cp39-manylinux_aarch64 cp38-manylinux_aarch64 cp37-manylinux_aarch64"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
           CIBW_ARCHS_LINUX: "x86_64 aarch64"
           CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install numpy cython scikit-build cmake &
