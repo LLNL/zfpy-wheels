@@ -94,3 +94,4 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           packages_dir: artifact
+          skip_existing: true
