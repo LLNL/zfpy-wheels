@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'llnl/zfp'
-          ref: 'f39af72648a2aeb88e9b2cca8c64f51b493ad5f4'
+          repository: 'da-wad/zfp'
+          ref: 'bc9f163'
 
       - uses: actions/setup-python@v2
 
