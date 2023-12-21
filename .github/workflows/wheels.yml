@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: 'da-wad/zfp'
-          ref: 'bc9f163'
+          ref: '1.0.1-rc1/bc9f163'
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
 
