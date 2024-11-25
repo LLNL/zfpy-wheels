@@ -89,9 +89,10 @@ jobs:
       - uses: actions/upload-artifact/merge@v4
         with:
           name: wheels
+          path: wheelhouse
           pattern: wheels-*
           separate-directories: false
-          delete-merged: true
+          delete-merged: false
           
   publish:
     needs: upload-wheels
@@ -111,3 +112,4 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           packages_dir: artifact
+          skip-existing: true
