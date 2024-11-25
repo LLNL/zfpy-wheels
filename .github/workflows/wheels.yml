@@ -83,7 +83,7 @@ jobs:
 
   # upload weels as a single artefact
   upload-wheels:
-    needs: [build_wheels]
+    needs: build_wheels
     runs-on: ubuntu-latest
     steps:
       - uses: actions/upload-artifact/merge@v4
@@ -94,7 +94,7 @@ jobs:
           delete-merged: true
           
   publish:
-    needs: build_wheels
+    needs: upload-wheels
     name: Publish wheels to PyPI
     runs-on: ubuntu-latest
     steps:
