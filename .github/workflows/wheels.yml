@@ -76,9 +76,9 @@ jobs:
              DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib delocate-listdeps {wheel} &&
              DYLD_LIBRARY_PATH=/Users/runner/work/zfpy-wheels/zfpy-wheels/build/lib delocate-wheel --require-archs {delocate_archs} -v -w {dest_dir} {wheel}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact/merge@v4
         with:
-          name: wheels-py3-${{ matrix.os }}-${{ matrix.arch }}
+          name: wheels
           path: wheelhouse
   publish:
     needs: build_wheels
