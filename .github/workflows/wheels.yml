@@ -99,17 +99,13 @@ jobs:
     name: Publish wheels to PyPI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
       - uses: actions/download-artifact@v4
         with:
           name: wheels
           path: wheelhouse
 
       - name: Publish wheels to PyPI
-
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages_dir: artifact
           skip-existing: true
